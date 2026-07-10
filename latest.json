@@ -1,6 +1,23 @@
 {
   "date": "2026년 07월 10일 금요일",
-  "generated_at": "2026-07-10T20:58:09.743642+09:00",
+  "generated_at": "2026-07-10T21:26:25.911566+09:00",
+  "market": {
+    "코스피": {
+      "price": 7475.94,
+      "change": 184.03,
+      "pct": 2.52
+    },
+    "코스닥": {
+      "price": 837.43,
+      "change": 52.43,
+      "pct": 6.68
+    },
+    "원/달러": {
+      "price": 1504.62,
+      "change": -1.86,
+      "pct": -0.12
+    }
+  },
   "articles": [
     {
       "category": "정치",
@@ -76,8 +93,8 @@
     },
     {
       "category": "해외",
-      "headline": "비행 중 깨진 승객석 창문…빨려 나갈뻔한 승객 '안전벨트'가 살렸다",
-      "summary": "비행 중 깨진 승객석 창문…빨려 나갈뻔한 승객 안전벨트가 살렸다, 이보배 기자, 국제",
+      "headline": "\"갑자기 비행기 창문 깨지면 어쩌지\"…무서운 상상이 현실로",
+      "summary": "갑자기 비행기 창문 깨지면 어쩌지…무서운 상상이 현실로, 비행 중 깨진 승객석 창문 빨려 나갈뻔한 승객 안전벨트가 살렸다",
       "points": [],
       "source": "한국경제",
       "url": "https://www.hankyung.com/article/2026071088027",
@@ -91,6 +108,24 @@
       "source": "한국경제",
       "url": "https://www.hankyung.com/article/2026071087527",
       "foot": "Fri, 10 Jul 2026 19:41:27 +0900"
+    },
+    {
+      "category": "증시",
+      "headline": "JP모간 뉴욕본사 태극기로 덮었다…월가 홀린 SK하이닉스 [종목+]",
+      "summary": "JP모간 뉴욕본사 태극기로 덮었다…월가 홀린 SK하이닉스, SK하이닉스 ADR 상장 디데이 40조 조달…외국기업 美 IPO 최대 규모 기관 수요 흥행…TSMC 모델로 재평가 도전",
+      "points": [],
+      "source": "한국경제",
+      "url": "https://www.hankyung.com/article/2026071083056",
+      "foot": "Fri, 10 Jul 2026 20:00:06 +0900"
+    },
+    {
+      "category": "증시",
+      "headline": "SK·에쓰오일·GS '깜짝 실적' 가능성",
+      "summary": "SK·에쓰오일·GS 깜짝 실적 가능성, 고유가에 2분기 이익 늘 듯",
+      "points": [],
+      "source": "한국경제",
+      "url": "https://www.hankyung.com/article/2026071087371",
+      "foot": "Fri, 10 Jul 2026 19:59:58 +0900"
     }
   ]
 }
