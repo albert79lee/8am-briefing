@@ -108,6 +108,8 @@
   .tag{ font-size:10.5px; font-weight:600; padding:3px 8px; border-radius:6px; color:#fff; }
   .tag.정치{background:var(--tag-pol);} .tag.사회{background:var(--tag-soc);}
   .tag.경제{background:var(--tag-eco);} .tag.반도체{background:var(--tag-semi);} .tag.해외{background:var(--tag-world);}
+  .tag.증시{background:#1f7a5c;}
+  .up{color:#ff9a91;} .down{color:#8fd6b8;} .flat{color:var(--paper);}
   .source{font-size:11.5px; color:var(--ink-soft);}
   .dot-sep{width:3px; height:3px; border-radius:50%; background:var(--ink-soft); opacity:.5;}
   .headline{ font-family:'Noto Serif KR', serif; font-size:17px; font-weight:600; line-height:1.4; margin:0 0 6px; }
@@ -154,7 +156,7 @@
       <div class="status" id="statusLabel">● 오전 8:00 발행</div>
     </div>
     <h1>오늘 아침,<br>이 10가지만 보세요</h1>
-    <p class="sub">정치·사회·경제·반도체·해외 — 매일 새벽 자동으로 모아 요약해요</p>
+    <p class="sub">정치·사회·경제·반도체·해외·증시 — 매일 새벽 자동으로 모아 요약해요</p>
   </div>
 
   <div class="ticker-wrap">
@@ -170,6 +172,7 @@
     <div class="chip" data-cat="경제">경제·주식</div>
     <div class="chip" data-cat="반도체">반도체·IT</div>
     <div class="chip" data-cat="해외">해외</div>
+    <div class="chip" data-cat="증시">증시</div>
   </div>
 
   <div class="feed" id="feed">
@@ -179,7 +182,7 @@
   <button class="refresh-btn" id="refreshBtn">새로고침</button>
 
   <div class="footnote">
-    <b>매일 오전 8시(한국시간) 자동 업데이트돼요.</b> 이 화면은 홈 화면에 추가해두면 앱처럼 아이콘을 눌러 바로 열 수 있어요. iPhone은 Safari에서 공유 버튼 → &quot;홈 화면에 추가&quot;, Android는 Chrome 메뉴(⋮) → &quot;홈 화면에 추가&quot;를 누르면 돼요.
+    <b>완전 무료로 자동 업데이트돼요.</b> 언론사가 공개한 RSS에서 실제 헤드라인과 링크만 가져오는 방식이라 API 비용이 전혀 들지 않아요. 이 화면은 홈 화면에 추가해두면 앱처럼 아이콘을 눌러 바로 열 수 있어요. iPhone은 Safari에서 공유 버튼 → "홈 화면에 추가", Android는 Chrome 메뉴(⋮) → "홈 화면에 추가"를 누르면 돼요.
   </div>
 
 </div>
@@ -194,8 +197,17 @@
   let articles = [];
 
   function renderTicker(data){
-    const items = (data.articles || []).slice(0, 6).map(a => `<span>${a.headline}</span>`).join('');
-    ticker.innerHTML = items || '<span>업데이트된 기사가 없어요</span>';
+    const market = data.market || {};
+    const parts = [];
+    for (const [name, v] of Object.entries(market)) {
+      if (!v || v.price == null) continue;
+      const arrow = v.change > 0 ? '▲' : (v.change < 0 ? '▼' : '-');
+      const cls = v.change > 0 ? 'up' : (v.change < 0 ? 'down' : 'flat');
+      const pct = v.pct != null ? Math.abs(v.pct).toFixed(2) : '';
+      const priceText = v.price.toLocaleString('ko-KR', { maximumFractionDigits: 2 });
+      parts.push(`<span class="${cls}">${name} ${priceText} ${arrow}${pct}%</span>`);
+    }
+    ticker.innerHTML = parts.length ? parts.join('') : '<span>시세 정보를 불러오지 못했어요</span>';
   }
 
   function renderCards(){
@@ -209,16 +221,23 @@
       const card = document.createElement('div');
       card.className = 'card';
       const points = (a.points || []).map(p => `<li>${p}</li>`).join('');
+      let footText = a.foot || '';
+      if (footText) {
+        const d = new Date(footText);
+        if (!isNaN(d)) {
+          footText = d.toLocaleString('ko-KR', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+      }
       card.innerHTML = `
         <div class="card-top">
           <span class="tag ${a.category}">${a.category === '반도체' ? '반도체·IT' : (a.category === '경제' ? '경제·주식' : a.category)}</span>
           <span class="source">${a.source || ''}</span>
         </div>
         <p class="headline"><a href="${a.url}" target="_blank" rel="noopener">${a.headline}</a></p>
-        <p class="summary">${a.summary || ''}</p>
+        ${a.summary ? `<p class="summary">${a.summary}</p>` : ''}
         ${points ? `<ul class="points">${points}</ul>` : ''}
         <div class="card-foot">
-          <span>${a.foot || ''}</span>
+          <span>${footText}</span>
           <a class="read-link" href="${a.url}" target="_blank" rel="noopener">${a.source || '원문'} ↗</a>
         </div>`;
       feed.appendChild(card);
