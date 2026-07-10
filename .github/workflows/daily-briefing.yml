@@ -1,10 +1,6 @@
-
 name: Daily 8AM Briefing
 
-on:
-  schedule:
-    - cron: "0 23 * * *"
-  workflow_dispatch: {}
+on: {schedule: [{cron: "0 23 * * *"}], workflow_dispatch: {}}
 
 permissions:
   contents: write
