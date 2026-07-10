@@ -1,0 +1,15 @@
+{
+  "name": "8시 브리핑",
+  "short_name": "8시브리핑",
+  "description": "매일 아침 8시, 주요 뉴스를 자동으로 모아 요약해드려요",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0e14",
+  "theme_color": "#10192e",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>8시 브리핑</title>
+
+<!-- 홈 화면 추가(PWA) 설정 -->
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="8시 브리핑">
+<meta name="theme-color" content="#10192e">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-900:#10192e;
+    --navy-800:#1b2947;
+    --dawn-500:#e8a33d;
+    --dawn-300:#f2c879;
+    --paper:#f7f3ea;
+    --paper-dim:#eae4d6;
+    --ink:#1c1c1a;
+    --ink-soft:#5b5850;
+    --line:#ded6c2;
+    --tag-pol:#8a5cb0;
+    --tag-soc:#3f7ea6;
+    --tag-eco:#c1443d;
+    --tag-semi:#b3781f;
+    --tag-world:#2e6b52;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#0b0e14;
+    font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+    color:var(--ink);
+    display:flex;
+    justify-content:center;
+    padding:env(safe-area-inset-top,20px) 0 30px;
+    min-height:100vh;
+  }
+  .phone{
+    width:100%;
+    max-width:520px;
+    background:var(--paper);
+  }
+  @media (min-width:560px){
+    .phone{ border-radius:28px; overflow:hidden; box-shadow:0 40px 80px -30px rgba(0,0,0,.7); margin-top:20px;}
+  }
+
+  .hero{
+    position:relative;
+    padding:22px 22px 26px;
+    background:linear-gradient(180deg, var(--navy-900) 0%, var(--navy-800) 55%, var(--dawn-500) 145%);
+    color:var(--paper);
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; left:-20%; right:-20%; bottom:-60%; height:140%;
+    background:radial-gradient(closest-side, rgba(242,200,121,.55), rgba(242,200,121,0) 70%);
+    pointer-events:none;
+  }
+  .hero-top{display:flex; justify-content:space-between; align-items:flex-start; position:relative; z-index:2;}
+  .date{font-size:12.5px; letter-spacing:.04em; opacity:.75;}
+  .status{font-size:11px; background:rgba(255,255,255,.12); padding:4px 9px; border-radius:20px;}
+  .hero h1{
+    font-family:'Noto Serif KR', serif; font-size:28px; line-height:1.28;
+    margin:14px 0 4px; position:relative; z-index:2; font-weight:700;
+  }
+  .hero p.sub{ margin:0; font-size:13px; opacity:.8; position:relative; z-index:2; }
+
+  .ticker-wrap{
+    background:var(--navy-900);
+    border-top:1px solid rgba(255,255,255,.08);
+    overflow:hidden; white-space:nowrap; padding:9px 0;
+  }
+  .ticker{
+    display:inline-block; padding-left:100%;
+    animation:scroll-left 18s linear infinite;
+    font-size:12px; color:var(--paper);
+  }
+  .ticker span{margin-right:28px;}
+  @keyframes scroll-left{ 0%{transform:translateX(0);} 100%{transform:translateX(-100%);} }
+
+  .chips{ display:flex; gap:8px; padding:16px 18px 4px; overflow-x:auto; }
+  .chip{
+    flex:0 0 auto; font-size:12.5px; padding:7px 13px; border-radius:20px;
+    border:1px solid var(--line); background:#fff; color:var(--ink-soft); cursor:pointer; user-select:none;
+  }
+  .chip.active{ background:var(--navy-900); border-color:var(--navy-900); color:var(--paper); }
+
+  .feed{padding:6px 18px 28px;}
+  .state-msg{
+    text-align:center; color:var(--ink-soft); font-size:13px; padding:40px 10px;
+  }
+  .card{
+    background:#fff; border:1px solid var(--line); border-radius:16px;
+    padding:16px 16px 14px; margin-top:14px;
+  }
+  .card.hide{display:none;}
+  .card-top{display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap;}
+  .tag{ font-size:10.5px; font-weight:600; padding:3px 8px; border-radius:6px; color:#fff; }
+  .tag.정치{background:var(--tag-pol);} .tag.사회{background:var(--tag-soc);}
+  .tag.경제{background:var(--tag-eco);} .tag.반도체{background:var(--tag-semi);} .tag.해외{background:var(--tag-world);}
+  .source{font-size:11.5px; color:var(--ink-soft);}
+  .dot-sep{width:3px; height:3px; border-radius:50%; background:var(--ink-soft); opacity:.5;}
+  .headline{ font-family:'Noto Serif KR', serif; font-size:17px; font-weight:600; line-height:1.4; margin:0 0 6px; }
+  .headline a{
+    color:var(--ink); text-decoration:none;
+    background-image:linear-gradient(transparent calc(100% - 2px), var(--dawn-500) 2px);
+    background-repeat:no-repeat; background-size:0% 100%; transition:background-size .2s ease;
+  }
+  .headline a:hover{ background-size:100% 100%; }
+  .summary{ font-size:13.5px; line-height:1.6; color:#3c3a35; margin:0 0 10px; }
+  .points{ margin:0 0 4px; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px; }
+  .points li{ font-size:12.5px; line-height:1.5; color:#4a473f; padding-left:14px; position:relative; }
+  .points li::before{ content:""; position:absolute; left:0; top:6px; width:5px; height:5px; border-radius:50%; background:var(--dawn-500); }
+  .card-foot{
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    margin-top:10px; padding-top:10px; border-top:1px dashed var(--line);
+    font-size:11px; color:var(--ink-soft);
+  }
+  .card-foot span{ flex:1; }
+  .read-link{
+    display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600;
+    color:var(--tag-semi); text-decoration:none; white-space:nowrap;
+  }
+
+  .footnote{
+    margin:6px 18px 22px; padding:14px 14px; background:var(--paper-dim);
+    border-radius:14px; font-size:11.5px; line-height:1.6; color:var(--ink-soft);
+  }
+  .footnote b{color:var(--ink);}
+  .refresh-btn{
+    display:block; margin:0 18px 6px; padding:11px; text-align:center;
+    background:var(--navy-900); color:var(--paper); border:none; border-radius:12px;
+    font-size:13px; font-weight:600; cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="hero">
+    <div class="hero-top">
+      <div class="date" id="dateLabel">불러오는 중…</div>
+      <div class="status" id="statusLabel">● 오전 8:00 발행</div>
+    </div>
+    <h1>오늘 아침,<br>이 10가지만 보세요</h1>
+    <p class="sub">정치·사회·경제·반도체·해외 — 매일 새벽 자동으로 모아 요약해요</p>
+  </div>
+
+  <div class="ticker-wrap">
+    <div class="ticker" id="ticker">
+      <span>불러오는 중…</span>
+    </div>
+  </div>
+
+  <div class="chips">
+    <div class="chip active" data-cat="전체">전체</div>
+    <div class="chip" data-cat="정치">정치</div>
+    <div class="chip" data-cat="사회">사회</div>
+    <div class="chip" data-cat="경제">경제·주식</div>
+    <div class="chip" data-cat="반도체">반도체·IT</div>
+    <div class="chip" data-cat="해외">해외</div>
+  </div>
+
+  <div class="feed" id="feed">
+    <div class="state-msg">뉴스를 불러오는 중이에요…</div>
+  </div>
+
+  <button class="refresh-btn" id="refreshBtn">새로고침</button>
+
+  <div class="footnote">
+    <b>매일 오전 8시(한국시간) 자동 업데이트돼요.</b> 이 화면은 홈 화면에 추가해두면 앱처럼 아이콘을 눌러 바로 열 수 있어요. iPhone은 Safari에서 공유 버튼 → &quot;홈 화면에 추가&quot;, Android는 Chrome 메뉴(⋮) → &quot;홈 화면에 추가&quot;를 누르면 돼요.
+  </div>
+
+</div>
+
+<script>
+  const feed = document.getElementById('feed');
+  const dateLabel = document.getElementById('dateLabel');
+  const statusLabel = document.getElementById('statusLabel');
+  const ticker = document.getElementById('ticker');
+  const chips = document.querySelectorAll('.chip');
+  let currentCat = '전체';
+  let articles = [];
+
+  function renderTicker(data){
+    const items = (data.articles || []).slice(0, 6).map(a => `<span>${a.headline}</span>`).join('');
+    ticker.innerHTML = items || '<span>업데이트된 기사가 없어요</span>';
+  }
+
+  function renderCards(){
+    feed.innerHTML = '';
+    const filtered = currentCat === '전체' ? articles : articles.filter(a => a.category === currentCat);
+    if(filtered.length === 0){
+      feed.innerHTML = '<div class="state-msg">이 카테고리엔 아직 기사가 없어요</div>';
+      return;
+    }
+    filtered.forEach(a => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      const points = (a.points || []).map(p => `<li>${p}</li>`).join('');
+      card.innerHTML = `
+        <div class="card-top">
+          <span class="tag ${a.category}">${a.category === '반도체' ? '반도체·IT' : (a.category === '경제' ? '경제·주식' : a.category)}</span>
+          <span class="source">${a.source || ''}</span>
+        </div>
+        <p class="headline"><a href="${a.url}" target="_blank" rel="noopener">${a.headline}</a></p>
+        <p class="summary">${a.summary || ''}</p>
+        ${points ? `<ul class="points">${points}</ul>` : ''}
+        <div class="card-foot">
+          <span>${a.foot || ''}</span>
+          <a class="read-link" href="${a.url}" target="_blank" rel="noopener">${a.source || '원문'} ↗</a>
+        </div>`;
+      feed.appendChild(card);
+    });
+  }
+
+  chips.forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      chips.forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      currentCat = chip.dataset.cat;
+      renderCards();
+    });
+  });
+
+  async function loadData(){
+    try{
+      const res = await fetch('latest.json?t=' + Date.now());
+      if(!res.ok) throw new Error('not found');
+      const data = await res.json();
+      articles = data.articles || [];
+      dateLabel.textContent = data.date || '';
+      statusLabel.textContent = '● 오전 8:00 발행';
+      renderTicker(data);
+      renderCards();
+    }catch(e){
+      feed.innerHTML = '<div class="state-msg">아직 브리핑이 생성되지 않았어요.<br>GitHub Actions가 처음 실행되면 자동으로 채워져요.</div>';
+      dateLabel.textContent = '데이터 없음';
+      ticker.innerHTML = '<span>첫 브리핑을 기다리는 중이에요</span>';
+    }
+  }
+
+  document.getElementById('refreshBtn').addEventListener('click', loadData);
+  loadData();
+</script>
+
+</body>
+</html>
