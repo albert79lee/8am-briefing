@@ -1,6 +1,6 @@
 """
-무료 RSS 피드 + 기사 페이지의 메타 요약(meta description)으로
-매일 아침 주요 뉴스를 헤드라인+요약과 함께 모으는 스크립트.
+무료 RSS 피드 + 기사 페이지의 메타 요약(meta description) + 무료 시세 API로
+매일 아침 주요 뉴스와 증시 현황을 모으는 스크립트.
 Anthropic API 등 유료 API를 전혀 쓰지 않아 추가 비용이 들지 않습니다.
 """
 import json
@@ -16,6 +16,13 @@ FEEDS = {
     "경제": "https://www.hankyung.com/feed/economy",
     "반도체": "https://www.hankyung.com/feed/it",
     "해외": "https://www.hankyung.com/feed/international",
+    "증시": "https://www.hankyung.com/feed/finance",
+}
+
+MARKET_SYMBOLS = {
+    "코스피": "^KS11",
+    "코스닥": "^KQ11",
+    "원/달러": "KRW=X",
 }
 
 ITEMS_PER_CATEGORY = 2
@@ -61,6 +68,31 @@ def fetch_summary(article_url):
     return ""
 
 
+def fetch_market():
+    """Yahoo Finance 무료 조회 API로 코스피/코스닥/환율 시세를 가져온다."""
+    market = {}
+    for name, symbol in MARKET_SYMBOLS.items():
+        try:
+            url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
+            req = urllib.request.Request(url, headers=HEADERS)
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            meta = data["chart"]["result"][0]["meta"]
+            price = meta.get("regularMarketPrice")
+            prev = meta.get("previousClose") or meta.get("chartPreviousClose")
+            change = round(price - prev, 2) if price is not None and prev else None
+            pct = round((change / prev) * 100, 2) if change is not None and prev else None
+            market[name] = {
+                "price": round(price, 2) if price is not None else None,
+                "change": change,
+                "pct": pct,
+            }
+        except Exception as e:
+            print(f"{name} 시세를 가져오지 못했습니다: {e}")
+            market[name] = None
+    return market
+
+
 def main():
     kst = datetime.timezone(datetime.timedelta(hours=9))
     now = datetime.datetime.now(kst)
@@ -84,16 +116,19 @@ def main():
                 "foot": it["pub_date"],
             })
 
+    market = fetch_market()
+
     output = {
         "date": now.strftime("%Y년 %m월 %d일 ") + ["월", "화", "수", "목", "금", "토", "일"][now.weekday()] + "요일",
         "generated_at": now.isoformat(),
+        "market": market,
         "articles": articles,
     }
 
     with open("latest.json", "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
 
-    print(f"저장 완료: {len(articles)}건")
+    print(f"저장 완료: {len(articles)}건, 시세 {len([m for m in market.values() if m])}건")
 
 
 if __name__ == "__main__":
