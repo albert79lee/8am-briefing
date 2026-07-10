@@ -1,96 +1,88 @@
 """
-매일 새벽 실행되어 주요 뉴스를 검색·요약하고 data/latest.json에 저장하는 스크립트.
-GitHub Actions가 매일 08:00(KST)에 이 스크립트를 자동으로 실행합니다.
+무료 RSS 피드 + 기사 페이지의 메타 요약(meta description)으로
+매일 아침 주요 뉴스를 헤드라인+요약과 함께 모으는 스크립트.
+Anthropic API 등 유료 API를 전혀 쓰지 않아 추가 비용이 들지 않습니다.
 """
-import os
 import json
 import datetime
+import html
 import re
-import requests
+import xml.etree.ElementTree as ET
+import urllib.request
 
-API_URL = "https://api.anthropic.com/v1/messages"
-MODEL = "claude-sonnet-5"
+FEEDS = {
+    "정치": "https://www.hankyung.com/feed/politics",
+    "사회": "https://www.hankyung.com/feed/society",
+    "경제": "https://www.hankyung.com/feed/economy",
+    "반도체": "https://www.hankyung.com/feed/it",
+    "해외": "https://www.hankyung.com/feed/international",
+}
 
-CATEGORIES = ["정치", "사회", "경제", "반도체", "해외"]
-
-PROMPT = """지금은 한국 시간 기준 오늘 아침이야. 아래 5개 카테고리 각각에서 최신 주요 뉴스를 2건씩,
-총 10건을 웹 검색으로 확인한 뒤 한국어로 정리해줘.
-
-카테고리: 정치, 사회, 경제(경제·주식), 반도체(반도체·IT), 해외
-
-각 기사마다 다음을 포함해야 해:
-- 실제로 검색해서 확인한, 오늘 또는 최근 1~2일 내의 신뢰할 수 있는 언론사 기사
-- 원문 기사의 실제 URL (검색 결과에 나온 정확한 링크)
-- 헤드라인 1줄
-- 3문장 내외의 한국어 요약 (기사 내용을 바탕으로, 문장을 그대로 베끼지 말고 자연스럽게 풀어서)
-- 핵심 포인트 2개 (짧은 불릿)
-- 언론사명
-- 짧은 한 줄 코멘트(foot)
-
-아래 JSON 형식으로만 응답해. 다른 설명이나 마크다운 코드블록 없이 순수 JSON 배열만 출력해:
-
-[
-  {
-    "category": "정치",
-    "headline": "...",
-    "summary": "...",
-    "points": ["...", "..."],
-    "source": "...",
-    "url": "https://...",
-    "foot": "..."
-  }
-]
-"""
+ITEMS_PER_CATEGORY = 2
+HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; BriefingBot/1.0)"}
 
 
-def call_claude():
-    api_key = os.environ["ANTHROPIC_API_KEY"]
-    resp = requests.post(
-        API_URL,
-        headers={
-            "x-api-key": api_key,
-            "anthropic-version": "2023-06-01",
-            "content-type": "application/json",
-        },
-        json={
-            "model": MODEL,
-            "max_tokens": 6000,
-            "tools": [{"type": "web_search_20250305", "name": "web_search"}],
-            "messages": [{"role": "user", "content": PROMPT}],
-        },
-        timeout=180,
-    )
-    resp.raise_for_status()
-    data = resp.json()
-    text_parts = [b["text"] for b in data.get("content", []) if b.get("type") == "text"]
-    return "\n".join(text_parts)
+def fetch_feed(url):
+    req = urllib.request.Request(url, headers=HEADERS)
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        data = resp.read()
+    root = ET.fromstring(data)
+    items = []
+    for item in root.findall(".//item"):
+        title = (item.findtext("title") or "").strip()
+        link = (item.findtext("link") or "").strip()
+        pub_date = (item.findtext("pubDate") or "").strip()
+        if title and link:
+            items.append({"headline": title, "url": link, "pub_date": pub_date})
+    return items
 
 
-def extract_json(text):
-    # ```json ... ``` 코드블록이 섞여 나올 경우 대비
-    text = re.sub(r"```json|```", "", text)
-    start = text.find("[")
-    end = text.rfind("]") + 1
-    if start == -1 or end == 0:
-        raise ValueError("응답에서 JSON 배열을 찾지 못했습니다:\n" + text[:500])
-    return json.loads(text[start:end])
+def fetch_summary(article_url):
+    """기사 페이지의 meta description(언론사가 직접 작성한 요약)을 가져온다."""
+    try:
+        req = urllib.request.Request(article_url, headers=HEADERS)
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            html_text = resp.read().decode("utf-8", errors="ignore")
+        pattern = (
+            r'<meta[^>]+(?:property=["\']og:description["\']|name=["\']description["\'])'
+            r'[^>]+content=["\']([^"\']+)["\']'
+        )
+        m = re.search(pattern, html_text, re.IGNORECASE)
+        if not m:
+            pattern2 = (
+                r'<meta[^>]+content=["\']([^"\']+)["\']'
+                r'[^>]+(?:property=["\']og:description["\']|name=["\']description["\'])'
+            )
+            m = re.search(pattern2, html_text, re.IGNORECASE)
+        if m:
+            return html.unescape(m.group(1)).strip()
+    except Exception as e:
+        print(f"요약 추출 실패 ({article_url}): {e}")
+    return ""
 
 
 def main():
     kst = datetime.timezone(datetime.timedelta(hours=9))
     now = datetime.datetime.now(kst)
 
-    raw_text = call_claude()
-    articles = extract_json(raw_text)
-
-    # 카테고리 값 정규화
-    for a in articles:
-        cat = a.get("category", "")
-        if cat not in CATEGORIES:
-            for c in CATEGORIES:
-                if c in cat:
-                    a["category"] = c
-                    break
+    articles = []
+    for category, url in FEEDS.items():
+        try:
+            items = fetch_feed(url)[:ITEMS_PER_CATEGORY]
+        except Exception as e:
+            print(f"{category} 피드를 가져오지 못했습니다: {e}")
+            items = []
+        for it in items:
+            summary = fetch_summary(it["url"])
+            articles.append({
+                "category": category,
+                "headline": it["headline"],
+                "summary": summary,
+                "points": [],
+                "source": "한국경제",
+                "url": it["url"],
+                "foot": it["pub_date"],
+            })
 
     output = {
         "date": now.strftime("%Y년 %m월 %d일 ") + ["월", "화", "수", "목", "금", "토", "일"][now.weekday()] + "요일",
