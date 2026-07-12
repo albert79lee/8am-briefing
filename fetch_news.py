@@ -16,7 +16,7 @@ FEEDS = {
     "경제": "https://www.hankyung.com/feed/economy",
     "반도체": "https://www.hankyung.com/feed/it",
     "해외": "https://www.hankyung.com/feed/international",
-    "증시": "https://www.hankyung.com/feed/finance",
+    "주식": "https://www.hankyung.com/feed/finance",
 }
 
 MARKET_SYMBOLS = {
@@ -93,6 +93,60 @@ def fetch_market():
     return market
 
 
+def describe_move(pct):
+    """등락률을 자연스러운 한국어 표현으로 변환한다."""
+    if pct is None:
+        return None
+    if pct >= 2:
+        return "큰 폭으로 상승했어요"
+    if pct >= 0.5:
+        return "상승했어요"
+    if pct > -0.5:
+        return "보합 수준을 유지했어요"
+    if pct > -2:
+        return "하락했어요"
+    return "큰 폭으로 하락했어요"
+
+
+def build_market_commentary(market):
+    """실제 지수 등락 데이터를 바탕으로 오늘의 시황 요약 문장을 자동 생성한다.
+    AI를 쓰지 않고 숫자 기반 규칙으로 문장을 조립하므로 비용이 들지 않는다."""
+    kospi = market.get("코스피")
+    kosdaq = market.get("코스닥")
+    fx = market.get("원/달러")
+
+    sentences = []
+
+    if kospi and kospi.get("pct") is not None:
+        arrow = "▲" if kospi["pct"] >= 0 else "▼"
+        sentences.append(
+            f"코스피는 전일 대비 {arrow}{abs(kospi['pct'])}% {describe_move(kospi['pct'])} "
+            f"({kospi['price']:,}선)."
+        )
+    if kosdaq and kosdaq.get("pct") is not None:
+        arrow = "▲" if kosdaq["pct"] >= 0 else "▼"
+        sentences.append(
+            f"코스닥은 {arrow}{abs(kosdaq['pct'])}% {describe_move(kosdaq['pct'])} "
+            f"({kosdaq['price']:,}선)."
+        )
+    if fx and fx.get("pct") is not None:
+        direction = "상승" if fx["pct"] >= 0 else "하락"
+        sentences.append(
+            f"원/달러 환율은 {abs(fx['pct'])}% {direction}한 {fx['price']:,}원에 거래되고 있어요."
+        )
+
+    if not sentences:
+        return "오늘의 시황 데이터를 아직 불러오지 못했어요."
+
+    if kospi and kosdaq and kospi.get("pct") is not None and kosdaq.get("pct") is not None:
+        if kospi["pct"] >= 0.5 and kosdaq["pct"] >= 0.5:
+            sentences.append("코스피·코스닥이 동반 강세를 보이며 투자심리가 개선된 모습이에요.")
+        elif kospi["pct"] <= -0.5 and kosdaq["pct"] <= -0.5:
+            sentences.append("코스피·코스닥이 동반 약세를 보이며 투자심리가 위축된 모습이에요.")
+
+    return " ".join(sentences)
+
+
 def main():
     kst = datetime.timezone(datetime.timedelta(hours=9))
     now = datetime.datetime.now(kst)
@@ -117,11 +171,13 @@ def main():
             })
 
     market = fetch_market()
+    market_commentary = build_market_commentary(market)
 
     output = {
         "date": now.strftime("%Y년 %m월 %d일 ") + ["월", "화", "수", "목", "금", "토", "일"][now.weekday()] + "요일",
         "generated_at": now.isoformat(),
         "market": market,
+        "market_commentary": market_commentary,
         "articles": articles,
     }
 
