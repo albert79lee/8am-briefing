@@ -1,132 +1,132 @@
 {
-  "date": "2026년 09월 28일 월요일",
-  "generated_at": "2026-09-28T10:20:12.845341+09:00",
+  "date": "2026년 09월 29일 화요일",
+  "generated_at": "2026-09-29T11:26:30.526852+09:00",
   "market": {
     "코스피": {
-      "price": 6984.88,
-      "change": -96.04,
-      "pct": -1.36
+      "price": 6861.58,
+      "change": -28.16,
+      "pct": -0.41
     },
     "코스닥": {
-      "price": 857.14,
-      "change": 12.66,
-      "pct": 1.5
+      "price": 839.95,
+      "change": -6.63,
+      "pct": -0.78
     },
     "원/달러": {
-      "price": 1358.78,
-      "change": 3.5,
-      "pct": 0.26
+      "price": 1358.28,
+      "change": -0.44,
+      "pct": -0.03
     }
   },
-  "market_commentary": "코스피는 전일 대비 ▼1.36% 하락했어요 (6,984.88선). 코스닥은 ▲1.5% 상승했어요 (857.14선). 원/달러 환율은 0.26% 상승한 1,358.78원에 거래되고 있어요.",
+  "market_commentary": "코스피는 전일 대비 ▼0.41% 보합 수준을 유지했어요 (6,861.58선). 코스닥은 ▼0.78% 하락했어요 (839.95선). 원/달러 환율은 0.03% 하락한 1,358.28원에 거래되고 있어요.",
   "articles": [
     {
       "category": "정치",
-      "headline": "장병들 \"북한 지뢰 봤다\" 증언도…野 \"軍, 국민이 졸로 보이나\"",
-      "summary": "장병들 북한 지뢰 봤다 증언도…野 軍, 국민이 졸로 보이나, 폭발 직후부터 목함지뢰 목격 증언 보도 군, 트라우마·안전 이유로 6일 뒤 현장 조사 조사팀 27일 착수했지만 사고 지점엔 미도달",
+      "headline": "유승민 \"北 지뢰 판단?…뻔한 결론 내는데 7일이나 걸려\"",
+      "summary": "유승민 北 지뢰 판단?…뻔한 결론 내는데 7일이나 걸려, 2015년엔 사고 당일 목함지뢰로 최초 보고 핵에는 핵, 지뢰에는 지뢰…국경선 요새화",
       "points": [],
       "source": "한국경제",
-      "url": "https://www.hankyung.com/article/202609288299H",
-      "foot": "Mon, 28 Sep 2026 09:24:14 +0900"
+      "url": "https://www.hankyung.com/article/202609290867H",
+      "foot": "Tue, 29 Sep 2026 10:35:22 +0900"
     },
     {
       "category": "정치",
-      "headline": "'국가보안시설' 암사취수장…2030년 개방 앞둔 현장 가보니 [김영리의 서울메이트]",
-      "summary": "국가보안시설 암사취수장…2030년 개방 앞둔 현장 가보니, 강동구, 2030년까지 199억원 투입 계획 밝혀 암사취수장 앞 1.45㎞ 생태관찰로 조성 암사초록길~가래여울마을 4.9㎞ 연결",
+      "headline": "[속보] 李대통령 \"주거·일자리·서민금융 3대 핵심사회정책 추진\"",
+      "summary": "李대통령 주거·일자리·서민금융 3대 핵심사회정책 추진, 박상경 기자, 정치",
       "points": [],
       "source": "한국경제",
-      "url": "https://www.hankyung.com/article/202609233948i",
-      "foot": "Mon, 28 Sep 2026 09:11:35 +0900"
+      "url": "https://www.hankyung.com/article/2026092914117",
+      "foot": "Tue, 29 Sep 2026 10:20:10 +0900"
     },
     {
       "category": "사회",
-      "headline": "조희대, 靑과 대법관 제청 갈등에 \"국감 통해 얘기하겠다\"",
-      "summary": "조희대, 靑과 대법관 제청 갈등에 국감 통해 얘기하겠다, 신용현 기자, 사회",
+      "headline": "윤아 AI 합성 사진에 발칵…SM \"형사고소 진행\"",
+      "summary": "이건 절대 못 참아…윤아 가짜 임신 사진에 초강수, 윤아 AI 합성 사진에…SM 형사고소 진행 윤아 대상 악성 AI 합성물 확산 SM엔터테인먼트, 형사고소 착수 무관용 원칙 내세워 강경 대응 예고",
       "points": [],
       "source": "한국경제",
-      "url": "https://www.hankyung.com/article/2026092886637",
-      "foot": "Mon, 28 Sep 2026 10:00:04 +0900"
+      "url": "https://www.hankyung.com/article/202609291362H",
+      "foot": "Tue, 29 Sep 2026 10:29:21 +0900"
     },
     {
       "category": "사회",
-      "headline": "기업집단 규제, '회장님'의 숙제 [지평의 공정거래 Insight]",
-      "summary": "기업집단 규제, 회장님의 숙제 [지평의 공정거래 Insight], 장품 기자, 사회",
+      "headline": "국민연금 지원도 '직업 차별'…농민 6년 받을 때 예술인 1년",
+      "summary": "국민연금 지원도 직업 차별…농민 6년 받을 때 예술인 1년, 농민 6년 지원받을 때 예술인은 1년 그쳐 특고 57만명 연금 배제…부처별 칸막이 한계",
       "points": [],
       "source": "한국경제",
-      "url": "https://www.hankyung.com/article/202609288280i",
-      "foot": "Mon, 28 Sep 2026 09:53:41 +0900"
+      "url": "https://www.hankyung.com/article/2026092911037",
+      "foot": "Tue, 29 Sep 2026 10:10:42 +0900"
     },
     {
       "category": "경제",
-      "headline": "“비싸야 명문” 공식 흔들…美 사립대, 등록금 최대 45% 인하",
-      "summary": "비싸야 명문이라더니…학생들 돌변에 대학 파격 결단, 美 사립대, 등록금 최대 45% 인하 학생 유치전 격화에 가격전쟁 본격화 주립대 수준 등록금·무대출 지원 제시",
+      "headline": "삼성, 뉴욕 한복판에 젠슨 황 띄웠다…밴 플리트상 수상 축하",
+      "summary": "삼성, 뉴욕 한복판에 젠슨 황 띄웠다…밴 플리트상 수상 축하, 원종환 기자, 경제",
       "points": [],
       "source": "한국경제",
-      "url": "https://www.hankyung.com/article/202609288325i",
-      "foot": "Mon, 28 Sep 2026 09:14:24 +0900"
+      "url": "https://www.hankyung.com/article/202609291266i",
+      "foot": "Tue, 29 Sep 2026 10:10:51 +0900"
     },
     {
       "category": "경제",
-      "headline": "\"아직 9월인데 벌써?\"…기온 뚝 떨어지자 편의점서 '불티'",
-      "summary": "아직 9월인데 벌써?…기온 뚝 떨어지자 편의점서 불티, 편의점, 1000원 어묵·군고구마 등판 동절기 먹거리 2~4주 앞당겨",
+      "headline": "[단독] SC제일은행, 내달 1일부터 주담대 MCI 전면 재개",
+      "summary": "SC제일은행, 내달 1일부터 주담대 MCI 전면 재개, 7월 시중은행서 일제히 중단 뒤 사실상 첫 해제",
       "points": [],
       "source": "한국경제",
-      "url": "https://www.hankyung.com/article/202609288328g",
-      "foot": "Mon, 28 Sep 2026 09:12:59 +0900"
+      "url": "https://www.hankyung.com/article/202609290593i",
+      "foot": "Tue, 29 Sep 2026 10:08:41 +0900"
     },
     {
       "category": "반도체",
-      "headline": "알지노믹스 RZ-001, 유럽 희귀의약품 지정 '청신호'",
-      "summary": "알지노믹스 RZ-001, 유럽 희귀의약품 지정 청신호’, EMA 산하 COMP 긍정 의견 채택 재발성 교모세포종 초기 임상 반응 근거",
+      "headline": "올릭스, 'OLX301A' 황반변성 임상 성과 공개…글로벌 2a상 추진",
+      "summary": "올릭스, OLX301A’ 황반변성 임상 성과 공개…글로벌 2a상 추진, 2026 DIA/FDA 올리고핵산 치료제 콘퍼런스",
       "points": [],
       "source": "한국경제",
-      "url": "https://www.hankyung.com/article/202609288566i",
-      "foot": "Mon, 28 Sep 2026 09:33:51 +0900"
+      "url": "https://www.hankyung.com/article/202609291505i",
+      "foot": "Tue, 29 Sep 2026 11:01:18 +0900"
     },
     {
       "category": "반도체",
-      "headline": "넥스세라, 220억원 시리즈B 유치…황반변성 점안제 美 임상 속도",
-      "summary": "넥스세라, 220억원 시리즈B 유치…황반변성 점안제 美 임상 속도, 누적 투자금 390억원…우리벤처파트너스 등 참여 NT-101’ 미국 1·2a상 파트2 및 R&D 고도화에 투입",
+      "headline": "목 흉터 없는 겨드랑이 로봇 갑상선수술, 장기 재발률 0.9%",
+      "summary": "목 흉터 없는 겨드랑이 로봇 갑상선수술, 장기 재발률 0.9%, 연세암병원 강상욱 교수팀, 국제학술지 발표",
       "points": [],
       "source": "한국경제",
-      "url": "https://www.hankyung.com/article/202609288541i",
-      "foot": "Mon, 28 Sep 2026 09:29:01 +0900"
+      "url": "https://www.hankyung.com/article/202609291467i",
+      "foot": "Tue, 29 Sep 2026 10:41:04 +0900"
     },
     {
       "category": "해외",
-      "headline": "AI가 키운 美주식 사기…초소형주 시세조종 급증",
-      "summary": "AI가 키운 美주식 사기…초소형주 시세조종 급증, 김동현 기자, 국제",
+      "headline": "이란, 카타르 통해 호르무즈 해협 재개방 조건 美에 재전달",
+      "summary": "이란, 카타르 통해 호르무즈 해협 재개방 조건 美에 재전달, 아라그치 카타르 거쳐 7개항 제안 전달…美 공식 답변 대기 중 트럼프의 핵 양보 압박엔 논의한 적 없어",
       "points": [],
       "source": "한국경제",
-      "url": "https://www.hankyung.com/article/202609288517i",
-      "foot": "Mon, 28 Sep 2026 09:42:57 +0900"
+      "url": "https://www.hankyung.com/article/2026092912387",
+      "foot": "Tue, 29 Sep 2026 11:01:38 +0900"
     },
     {
       "category": "해외",
-      "headline": "\"잊고 있던 자동결제까지 찾아 해지\"…구독 경제 위협하는 AI",
-      "summary": "이 돈 계속 내실 건가요?…개인 비서 인기에 비상 걸린 곳, 잊고 있던 자동결제까지 찾아 해지…구독 경제 위협하는 AI",
+      "headline": "중국 피해 미국 몰리는 완성차…GM “경쟁 더 치열해진다”",
+      "summary": "중국 피해 미국 몰리는 완성차…GM 경쟁 더 치열해진다, 김동현 기자, 국제",
       "points": [],
       "source": "한국경제",
-      "url": "https://www.hankyung.com/article/2026092885307",
-      "foot": "Mon, 28 Sep 2026 09:35:42 +0900"
+      "url": "https://www.hankyung.com/article/202609291560i",
+      "foot": "Tue, 29 Sep 2026 11:01:02 +0900"
     },
     {
       "category": "주식",
-      "headline": "DS운용, 'DS 코스닥액티브' ETF 1개월 수익률 전체 1위",
-      "summary": "DS운용, DS 코스닥액티브 ETF 1개월 수익률 전체 1위, 이수 기자, 증권",
+      "headline": "전날 폭등한 급락주 '줍줍' 나선 주식 초고수...LG이노텍 사고 삼전우 팔았다",
+      "summary": "",
       "points": [],
       "source": "한국경제",
-      "url": "https://www.hankyung.com/article/2026092886896",
-      "foot": "Mon, 28 Sep 2026 10:05:25 +0900"
+      "url": "https://www.hankyung.com/article/202609291453i",
+      "foot": "Tue, 29 Sep 2026 11:00:05 +0900"
     },
     {
       "category": "주식",
-      "headline": "\"흔들릴 때 담아라\" vs \"트레이딩 집중\"… 10월 증시 엇갈린 시선",
-      "summary": "흔들릴 때 담아라 vs 트레이딩 집중… 10월 증시 엇갈린 시선, 김동윤 기자, 증권",
+      "headline": "PC만 팔던 회사 맞나…올해 270% 급등한 '이 종목'",
+      "summary": "PC만 팔던 회사 맞나…올해 270% 급등한 이 종목, 조아라 기자, 증권",
       "points": [],
       "source": "한국경제",
-      "url": "https://www.hankyung.com/article/202609288243i",
-      "foot": "Mon, 28 Sep 2026 10:00:06 +0900"
+      "url": "https://www.hankyung.com/article/202609291551i",
+      "foot": "Tue, 29 Sep 2026 10:55:11 +0900"
     }
   ]
 }
